@@ -1,41 +1,67 @@
+using Microsoft.EntityFrameworkCore;
+using Config;
+using Services;
+using Data;
+
+DotNetEnv.Env.Load(); 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// ----------------------------
+// DATABASE
+// ----------------------------
+builder.Services.AddDatabase();
 
+// ----------------------------
+// CORS
+// ----------------------------
+var allowedOriginsEnv = Environment.GetEnvironmentVariable("Cors__AllowedOrigins") ?? "";
+var allowedOrigins = allowedOriginsEnv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+builder.Services.AddCorsPolicy(allowedOrigins);
+
+// ----------------------------
+// JWT Authentication
+// ----------------------------
+var jwtKey = Environment.GetEnvironmentVariable("Jwt__Key") ?? throw new Exception("JWT key not set in environment");
+var jwtIssuer = Environment.GetEnvironmentVariable("Jwt__Issuer") ?? "myapp-dev";
+builder.Services.AddJwtAuthentication(jwtKey, jwtIssuer);
+
+// ----------------------------
+// Controllers & Swagger
+// ----------------------------
+builder.Services.AddControllers();
+builder.Services.AddSwaggerSetup();
+
+// ----------------------------
+// User Service
+// ----------------------------
+// Registers UserService as a scoped dependency, 
+// so it can be injected into controllers via constructor injection.
+// Passes AppDbContext, JWT key, and issuer to the service.
+builder.Services.AddScoped<UserService>(sp => 
+{
+    var context = sp.GetRequiredService<AppDbContext>();
+    return new UserService(context, jwtKey, jwtIssuer);
+});
+
+
+
+// ----------------------------
+// Build & configure middleware
+// ----------------------------
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Testing the backend");
+    });
 }
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
+app.UseCors();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -1,0 +1,34 @@
+# Ignore Visual Studio temporary files, build results, and user-specific files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+bin/
+obj/
+out/
+
+# Rider IDE files
+.idea/
+
+# Visual Studio Code files
+.vscode/
+
+# ASP.NET Core environment files
+.env
+appsettings.*.json
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+
+# Logs
+*.log
+
+# OS-specific
+Thumbs.db
+Desktop.ini
+.DS_Store
