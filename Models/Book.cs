@@ -1,5 +1,5 @@
 // Models/Book.cs
-namespace Models
+namespace MyBackend.Models
 {
   public class Book {
     public int Id { get; set; }

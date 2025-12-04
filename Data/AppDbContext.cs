@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Models;
+using MyBackend.Models;
+
 // This class represents your DATABASE in C#.
 // It is the main bridge between:
 // - Your C# models (User, Book, Quote)
 // - The actual SQL database (PostgreSQL)
-namespace Data{
+namespace MyBackend.Data{
     public class AppDbContext : DbContext
     {
         // This constructor is used by ASP.NET automatically (Dependency Injection).

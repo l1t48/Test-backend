@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Data;
+using MyBackend.Data;
 
-namespace Config
+namespace MyBackend.Config
 {
     public static class DatabaseConfig
     {

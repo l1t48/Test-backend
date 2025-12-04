@@ -1,5 +1,5 @@
 // Models/Quote.cs
-namespace Models
+namespace MyBackend.Models
 {
   public class Quote {
     public int Id { get; set; }

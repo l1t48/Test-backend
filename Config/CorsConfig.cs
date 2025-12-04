@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Config
+namespace MyBackend.Config
 {
     public static class CorsConfig
     {

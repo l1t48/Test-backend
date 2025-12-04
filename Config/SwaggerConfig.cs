@@ -1,7 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+
 using Microsoft.OpenApi.Models;
 
-namespace Config
+namespace MyBackend.Config
 {
     public static class SwaggerConfig
     {

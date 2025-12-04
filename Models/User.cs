@@ -1,5 +1,5 @@
 // Models/User.cs
-namespace Models
+namespace MyBackend.Models
 {
   public class User {
     public int Id { get; set; }

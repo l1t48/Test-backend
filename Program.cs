@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Config;
-using Services;
-using Data;
+using MyBackend.Config;
+using MyBackend.Services;
+using MyBackend.Data;
 
 DotNetEnv.Env.Load(); 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,8 +42,6 @@ builder.Services.AddScoped<UserService>(sp =>
     var context = sp.GetRequiredService<AppDbContext>();
     return new UserService(context, jwtKey, jwtIssuer);
 });
-
-
 
 // ----------------------------
 // Build & configure middleware

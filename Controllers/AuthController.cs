@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc; // Provides attributes and base classes for building controllers and API endpoints
-using Services; 
-using Models; 
+using MyBackend.Services;
+using MyBackend.Dtos;
 
-namespace Controllers
+namespace MyBackend.Controllers
 {
     // Indicates that this class is an API controller.
     // Enables automatic model validation, binding, and other API-specific behaviors.
@@ -21,6 +21,7 @@ namespace Controllers
             _userService = userService;
         }
 
+        // POST: api/register
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterDto dto)
         {
@@ -29,6 +30,7 @@ namespace Controllers
             return Ok("User registered!");
         }
 
+        // POST: api/login
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDto dto)
         {
@@ -39,12 +41,22 @@ namespace Controllers
             Response.Cookies.Append("jwt", token, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true, // true in production (requires HTTPS)
+                Secure = true, // true in production (requires HTTPS), It is now false for localhost testing
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddHours(3)
             });
 
-            return Ok(new { message = "Logged in successfully" });
+            return Ok(new { message = "Logged in successfully", token });
+            // return Ok(new { message = "Logged in successfully" });
         }
+
+        // POST: api/logout
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+            return Ok(new { message = "Logged out successfully" });
+        }
+
     }
 }

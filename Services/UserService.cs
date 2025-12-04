@@ -1,5 +1,5 @@
-using Data;
-using Helpers;
+using MyBackend.Data;
+using MyBackend.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text;
 
 
-namespace Services
+namespace MyBackend.Services
 {
     public class UserService
     {

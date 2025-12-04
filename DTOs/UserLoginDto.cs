@@ -1,5 +1,8 @@
-public class UserLoginDto
+namespace MyBackend.Dtos
 {
-    public string Email { get; set; } = null!;
-    public string Password { get; set; } = null!;
+    public class UserLoginDto
+    {
+        public string Email { get; set; } = null!;
+        public string Password { get; set; } = null!;
+    }
 }
