@@ -65,7 +65,7 @@ namespace MyBackend.Controllers
             Response.Cookies.Append("jwt", token, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = false, // true in production (requires HTTPS), It is now false for localhost testing
+                Secure = true, // true in production (requires HTTPS), It is now false for localhost testing
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddHours(3)
             });
