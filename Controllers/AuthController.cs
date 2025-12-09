@@ -95,6 +95,7 @@ namespace MyBackend.Controllers
                 Expires = DateTimeOffset.UtcNow.AddDays(-1), // Set past date to remove
                 HttpOnly = true,
                 Secure = true, // Ensure this matches the original cookie
+                Path = "/",  
                 SameSite = SameSiteMode.None,
             });
 
